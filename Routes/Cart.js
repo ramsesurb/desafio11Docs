@@ -120,7 +120,7 @@ routerCart.delete("/:cid/product/:pid", async (req, res) => {
     const cid = req.params.cid;
     const findCart = await productos.getByid(cid)
     const pid = req.params.pid;
-    //const findprod = await prods.getByid(pid)
+    const findprod = await prods.getByid(pid)
     if (!cid || cid.length !== 24) {
       res.json({ status: "error", message: "el id del carrito  no es valido" });
       CustomError.createError({
@@ -151,19 +151,18 @@ routerCart.delete("/:cid/product/:pid", async (req, res) => {
         errorCode: Errors.INVALID_PARAM,
       });
     }
-    //! funciona, pero hace falta configurar para que los metodos de producto funcionen con id Mongo
-    //if (!findprod) {
-    //  res.json({
-    //    status: "error",
-    //    message: "no se encontro un producto con este valor",
-    //  });
-    //  CustomError.createError({
-    //    name: "product get by id error",
-    //    cause: generateProductNfErrorParam(cid),
-    //    message: "El producto no fue encontrado",
-    //    errorCode: Errors.INVALID_PARAM,
-    //  });
-    //}
+    if (!findprod) {
+      res.json({
+        status: "error",
+        message: "no se encontro un producto con este valor",
+      });
+      CustomError.createError({
+        name: "product get by id error",
+        cause: generateProductNfErrorParam(cid),
+        message: "El producto no fue encontrado",
+        errorCode: Errors.INVALID_PARAM,
+      });
+    }
     const cart = await productos.deleteProductById(cid, pid);
 
     res.send(cart);

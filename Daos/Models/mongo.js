@@ -6,10 +6,6 @@ import mongoosePaginate from "mongoose-paginate-v2";
 const Collection = 'Products'
 
 const productoSchema = new mongoose.Schema({
-  id: {
-    type: Number,
-    unique: true,
-  },
   titulo: {
     type: String,
     required: true,

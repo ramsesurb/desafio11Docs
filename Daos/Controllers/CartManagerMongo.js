@@ -24,14 +24,12 @@ class CartManagerMongo {
       
       if (!cart) {
         const newCart = await cartModel.create({
-          id: cid,
           productos: newProducts
         });
         return newCart;
       }
       
-      //const result = await cartModel.updateOne({ id: cid },{$push:{productos:newProducts._id,quantity:quantity}})
-      cart.productos.push({producto:pid,quantity:1,id:id});
+      cart.productos.push({producto:pid,quantity:1});
   
       const updatedCart = await cart.save();
       return updatedCart;
@@ -44,7 +42,6 @@ class CartManagerMongo {
     try {
       
       const newProduct = {
-        id: (Math.floor(Math.random() * 1000) % 1000).toString().padStart(3, '0'),
         productos: [],
       };
       const result = await cartModel.create(newProduct)
@@ -58,8 +55,6 @@ class CartManagerMongo {
 
   async getByid(id) {
     try {
-      
-      //const getByid =await cartModel.findOne({id:id})
 
       const getByid = await cartModel.findById(id).populate("productos.producto")
       console.log("producto buscado", getByid);

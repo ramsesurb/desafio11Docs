@@ -34,21 +34,17 @@ routerProd.get("/", async (req, res) => {
 //get by id
 routerProd.get("/:id", async (req, res, next) => {
   const { id } = req.params;
-  const pid = parseInt(id);
 
   try {
-    const prodById = await productsService.getByid(pid);
+    const prodById = await productsService.getByid(id);
     console.log(id);
 
-    if (Number.isNaN(pid)) {
-      res.json({
-        status: "error",
-        message: `User id no es valido, debe ser un numero entero, pero se recibio: ${id}`,
-      });
+    if (!id || id.length !== 24) {
+      res.json({ status: "error", message: `el id: ${id} no es valido` });
       CustomError.createError({
         name: "product get by id error",
-        cause: generateProductErrorParam(id),
-        message: "Error obteniendo el producto por el id",
+        cause: generateCartErrorParam(id),
+        message: "Error obteniendo el carrito por el id",
         errorCode: Errors.INVALID_PARAM,
       });
     }
@@ -97,15 +93,12 @@ routerProd.delete("/:id", async (req, res) => {
   try {
     const prodById = await productsService.getByid(id);
     const deleteProd = await productsService.deleteById(pid);
-    if (Number.isNaN(pid)) {
-      res.json({
-        status: "error",
-        message: `User id no es valido, debe ser un numero entero, pero se recibio: ${id}`,
-      });
+    if (!id || id.length !== 24) {
+      res.json({ status: "error", message: `el id: ${id} no es valido` });
       CustomError.createError({
-        name: "product delete by id error",
-        cause: generateProductErrorParam(id),
-        message: "Error obteniendo el producto por el id",
+        name: "product get by id error",
+        cause: generateCartErrorParam(id),
+        message: "Error obteniendo el carrito por el id",
         errorCode: Errors.INVALID_PARAM,
       });
     }

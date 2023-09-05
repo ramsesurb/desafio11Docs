@@ -46,7 +46,6 @@ class ProductManagerMongo {
       }
       
       const newProduct = {
-        id: (Math.floor(Math.random() * 1000) % 1000).toString().padStart(3, '0'),
         titulo: prod.titulo,
         descripcion: prod.descripcion,
         precio: prod.precio,
@@ -65,7 +64,7 @@ class ProductManagerMongo {
   async getByid(id) {
     try {
       
-      const getByid =await productoModel.findOne({id:id})
+      const getByid =await productoModel.findById(id)
       console.log("producto buscado", getByid);
       return getByid;
     } catch (error) {
